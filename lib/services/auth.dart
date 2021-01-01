@@ -36,8 +36,27 @@ class AuthService{
   // sign out anonymously
 
   // sign in with email and password
+  Future<UserModel>signInWithEmailAndPassword(String email, String password) async {
+    try{
+      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return _userFromFirebase(result.user);
 
+    } catch(e){
+      print(e.toString());
+      return null;
+    }
+  }
   // register with email and password
+  Future<UserModel>registerWithEmailAndPassword(String email, String password) async{
+    try{
+      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      return _userFromFirebase(result.user);
+
+    } catch(e){
+        print(e.toString());
+        return null;
+    }
+  }
 
   // sign out
   Future signOut() async{
