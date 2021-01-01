@@ -32,9 +32,20 @@ class AuthService{
       return null;
     }
   }
+
+  // sign out anonymously
+
   // sign in with email and password
 
   // register with email and password
 
   // sign out
+  Future signOut() async{
+    try{
+      await _auth.signOut();
+    } catch(e){
+      print(e.toString());
+      return null;
+    }
+  }
 }
