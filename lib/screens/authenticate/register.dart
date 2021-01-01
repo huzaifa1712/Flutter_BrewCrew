@@ -1,6 +1,7 @@
 import 'package:brew_crew/models/UserModel.dart';
 import 'package:flutter/material.dart';
 import 'package:brew_crew/services/auth.dart';
+import 'package:brew_crew/shared/constants.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -47,6 +48,12 @@ class _RegisterState extends State<Register> {
                 SizedBox(height: 20.0),
                 // Email Form Field
                 TextFormField(
+                  // textInputDecoration is a defined variable in the constants.dart file
+                  // containing properties for the decoration.
+                  // copyWith returns a new instance of the object with the desire properties
+                  // changed according to what is passed in. So we can reuse the same style
+                  // for every form field with different properties for placeholder text
+                  decoration:textInputDecoration.copyWith(hintText: 'Email'),
                   validator: (value){
                     return value.isEmpty ? "Enter an email" : null;
                   },
@@ -60,6 +67,7 @@ class _RegisterState extends State<Register> {
                 SizedBox(height: 20.0),
                 // Password Form Field
                 TextFormField(
+                  decoration:textInputDecoration.copyWith(hintText: 'Password'),
                   validator: (value){
                     return value.length < 6 ? "Please enter a password 6+ characters long" : null;
                   },
