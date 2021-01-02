@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:brew_crew/models/UserModel.dart';
-import 'screens/loading.dart';
+import 'shared/loading.dart';
 
 void main() async {
   // these first two lines are needed to intialise Firebase before continuing with the app
