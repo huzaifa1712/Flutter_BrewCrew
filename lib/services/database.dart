@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:brew_crew/models/BrewModel.dart';
 // Firestore stores data as documents in collections, with each document being
 // an analog to an individual object - just like Mongo. Collections are of similar data - so
 // for example the User collection or Defects collection
@@ -8,7 +9,7 @@ class DatabaseService{
   final String uid;
   DatabaseService({this.uid});
   // collection reference
-  final CollectionReference brewCollection = firestore.collection('brews');
+  final CollectionReference brewsCollection = firestore.collection('brews');
 
   Future updateUserData(String sugars, String name, int strength) async{
     // Firestore creates documents and collections if they do not already exist
@@ -17,11 +18,29 @@ class DatabaseService{
 
     // simply setting a reference to a document using collection.doc(id) doesn't perform network
     // operations. but get and set would.
-    return await brewCollection.doc(uid).set({
+    return await brewsCollection.doc(uid).set({
       'sugars': sugars,
       'name': name,
       'strength': strength
     });
 
+  }
+
+  // brew list from snapshot
+  List<BrewModel> _brewListFromSnapshot(QuerySnapshot snapshot){
+    return snapshot.docs.map((doc){
+      return BrewModel(
+        name: doc.data()['name'] ?? '',
+        strength: doc.data()['strength'] ?? 0,
+        sugars: doc.data()['sugars'] ?? '0'
+      );
+    }).toList();
+  }
+
+  // get brews stream
+  // the same way we use a stream to listen for authentication changes, we can use a stream to listen
+  // for changes to the brews collection
+  Stream<List<BrewModel>> get brews{
+    return brewsCollection.snapshots().map(_brewListFromSnapshot);
   }
 }
