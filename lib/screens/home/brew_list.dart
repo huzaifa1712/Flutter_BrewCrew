@@ -1,6 +1,7 @@
 import 'package:brew_crew/models/BrewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'brew_tile.dart';
 
 class BrewList extends StatefulWidget {
   @override
@@ -12,11 +13,19 @@ class _BrewListState extends State<BrewList> {
   Widget build(BuildContext context) {
     final brews = Provider.of<List<BrewModel>>(context);
 
+
     brews.forEach((brew) {
       print(brew.name);
       print(brew.sugars);
       print(brew.strength);
     });
-    return Container();
+    // This returns a ListView using the builder function - we can pass the index (0 to n-1)
+    // into the constructor for BrewTile as well
+    return ListView.builder(
+        itemCount: brews.length,
+        itemBuilder: (BuildContext context, int index){
+          return BrewTile(brew: brews[index]);
+        },
+    );
   }
 }

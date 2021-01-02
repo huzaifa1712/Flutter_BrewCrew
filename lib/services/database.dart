@@ -27,6 +27,10 @@ class DatabaseService{
   }
 
   // brew list from snapshot
+  // snapshot.docs is the list of DocumentSnapshots corresponding to all the brew documents
+  // .map takes each document and outputs a BrewModel object with the respective properties
+  // ?? says to assign to the expression on the right if it is not null, else assign to left
+  // toList because .map is lazy - returns iterable
   List<BrewModel> _brewListFromSnapshot(QuerySnapshot snapshot){
     return snapshot.docs.map((doc){
       return BrewModel(
@@ -40,7 +44,10 @@ class DatabaseService{
   // get brews stream
   // the same way we use a stream to listen for authentication changes, we can use a stream to listen
   // for changes to the brews collection
+  // maps snapshots to above function
   Stream<List<BrewModel>> get brews{
-    return brewsCollection.snapshots().map(_brewListFromSnapshot);
+    //return brewsCollection.snapshots().map((snapshot) => _brewListFromSnapshot(snapshot));
+    // below is same as above
+    return brewsCollection.snapshots().map((snapshot) => _brewListFromSnapshot(snapshot));
   }
 }
