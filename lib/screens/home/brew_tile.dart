@@ -19,6 +19,10 @@ class BrewTile extends StatelessWidget {
           leading: CircleAvatar(
             radius: 25.0,
             backgroundColor: Colors.brown[brew.strength],
+            child: Text(
+                (brew.strength/100).round().toString(),
+                style: TextStyle(color: Colors.white),
+            ),
           ),
           title: Text(brew.name),
           subtitle: Text('Takes ${brew.sugars} sugar(s)'),
