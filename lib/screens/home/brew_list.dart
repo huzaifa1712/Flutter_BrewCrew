@@ -11,7 +11,8 @@ class BrewList extends StatefulWidget {
 class _BrewListState extends State<BrewList> {
   @override
   Widget build(BuildContext context) {
-    final brews = Provider.of<List<BrewModel>>(context);
+    // set brews to empty array if no brews are available
+    final brews = Provider.of<List<BrewModel>>(context) ?? [];
 
 
     brews.forEach((brew) {

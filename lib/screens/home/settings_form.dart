@@ -109,29 +109,41 @@ class _SettingsFormState extends State<SettingsForm> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () async{
-                    _currentName = _currentName ?? userData.name;
-                    _currentStrength = _currentStrength ?? userData.strength;
-                    _currentSugars = _currentSugars ?? userData.sugars;
+                    // validation due to text field for Name
+                    if(_formKey.currentState.validate()){
+                      // because these variables are initially set to null,
+                      // if the user doesn't update the values they will remain null
+                      // so we want to assign it to the current userData values and update the DB
+                      // with that instead of null
+                      _currentName = _currentName ?? userData.name;
+                      _currentStrength = _currentStrength ?? userData.strength;
+                      _currentSugars = _currentSugars ?? userData.sugars;
 
-                    DatabaseService(uid: user.uid).updateBrew(
-                      name: _currentName,
-                      strength: _currentStrength,
-                      sugars: _currentSugars
-                    ).then((value) => setState( (){
-                      submitMessage = "Brew updated";
-                    }))
-                    .catchError((onError) => setState( (){
-                      submitMessage = "There was an issue";
-                      submitErr = true;
-                    }));
+                      // await makes the updateBrew function run first before running the line after
+                      await DatabaseService(uid: user.uid).updateBrew(
+                          name: _currentName,
+                          strength: _currentStrength,
+                          sugars: _currentSugars
+                      ).then((value) => setState( (){
+                        submitMessage = "Brew updated";
+                      }))
+                          .catchError((onError) => setState( (){
+                        submitMessage = "There was an issue";
+                        submitErr = true;
+                      }));
+
+                      // This pops the settings form sheet down so the user returns to home
+                      Navigator.pop(context);
+                    }
+
 
                   },
                 ),
-                SizedBox(height: 12.0),
+                SizedBox(height:12.0),
                 Text(
                   submitMessage,
                   style: TextStyle(
-                    fontSize: 14.0,
+                    fontSize: 16.0,
                     color: submitErr ? Colors.red : Colors.green,
                   ),
                 ),
