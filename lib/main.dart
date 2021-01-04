@@ -16,9 +16,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  final Future<FirebaseApp> _initialise = Firebase.initializeApp();
-
   @override
   // Guide to providers: https://medium.com/flutter-community/making-sense-all-of-those-flutter-providers-e842e18f45dd
   // Guide to constructors: https://medium.com/flutter-community/deconstructing-dart-constructors-e3b553f583ef
